@@ -1,0 +1,50 @@
+.body {
+  background-color: bisque;
+}
+
+.navbar {
+  background-color: aquamarine;
+  border: 3px solid cadetblue;
+  min-height: 50px;
+
+  position: sticky;
+  top: 5px;
+
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.menu-card {
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 350px));
+  gap: 1em;
+  padding: 1em;
+
+  /* background-color: blueviolet; */
+}
+
+.card {
+  border: 5px burlywood double;
+  padding: 30px;
+  background-color: rgba(39, 119, 74, 0.905);
+  color: blanchedalmond;
+  min-height: 200px;
+
+  display: flex;
+  flex-direction: column;
+  /* justify-content: start; */
+  align-items: center;
+}
+
+.description {
+  margin-top: auto;
+  /* it Will automatically shift the description downwards on the page, irrespective of the length of the description  */
+}
