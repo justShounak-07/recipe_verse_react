@@ -1,5 +1,6 @@
-.body {
+body {
   background-color: bisque;
+  /* margin: 0; */
 }
 
 .navbar {
@@ -19,6 +20,14 @@
   display: flex;
   gap: 30px;
   list-style: none;
+}
+
+.searchInput {
+  min-height: 30px;
+  min-width: 350px;
+  margin-top: 10px;
+  border: 3px double dodgerblue;
+  border-radius: 5px;
 }
 
 .menu-card {

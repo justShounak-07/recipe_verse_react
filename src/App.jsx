@@ -1,10 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Recipe from "./recipe-src/recipe";
 import "./recipe-src/recipe.css";
+
+// declaring recipes as a list--
+const recipe_card = [
+  {
+    id: 1,
+    title: "Butter paneer",
+    description: " Description of Recipe - 1",
+  },
+  { id: 2, title: "Malai kofta ", description: " Description of Recipe - 2" },
+  {
+    id: 3,
+    title: "Butter Chicken",
+    description: " Description of Recipe - 3",
+  },
+  { id: 4, title: "Malai Chaap", description: " Description of Recipe - 4" },
+  {
+    id: 5,
+    title: "Chilli Chicken",
+    description: " Description of Recipe - 5",
+  },
+  {
+    id: 6,
+    title: "Paneer Do pyaza",
+    description: " Description of Recipe - 6",
+  },
+];
+
 const App = () => {
+  const [search, setSearch] = useState("");
+
+  // filtering list
+  const filteredRecipe = recipe_card.filter((item) =>
+    item.title.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  // renderig the list to display on the list--
+  const displayRecipe = filteredRecipe.map((recipe) => (
+    <Recipe
+      key={recipe.id}
+      title={recipe.title}
+      description={recipe.description}
+    />
+  ));
+
   return (
     <>
+      {/* navbar of the page-- */}
       <nav className="navbar">
         <ul className="nav-links">
           <li className="about">
@@ -22,32 +66,17 @@ const App = () => {
         </ul>
       </nav>
 
-      <div>
-        <Recipe
-          title="Recipe card - 1"
-          description=" Description of Recipe - 1"
-        />
-        <Recipe
-          title="Recipe card - 2"
-          description=" Description of Recipe - 2"
-        />
-        <Recipe
-          title="Recipe card - 3"
-          description=" Description of Recipe - 3"
-        />
-        <Recipe
-          title="Recipe card - 4"
-          description=" Description of Recipe - 4"
-        />
-        <Recipe
-          title="Recipe card - 5"
-          description=" Description of Recipe - 5"
-        />
-        <Recipe
-          title="Recipe card - 6"
-          description=" Description of Recipe - 6"
-        />
-      </div>
+      <label htmlFor="recipeSearch"> Search recipe: </label>
+      {/* creating search filter */}
+      <input
+        className="searchInput"
+        type="text"
+        placeholder=" Search recipe"
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      {/* displaying the list */}
+      <div> {displayRecipe}</div>
     </>
   );
 };
