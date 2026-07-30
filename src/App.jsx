@@ -4,7 +4,7 @@ import Recipe from "./recipe-src/recipe";
 import "./recipe-src/recipe.css";
 
 // declaring recipes as a list--
-const recipe_card = [
+const recipeCards = [
   {
     id: 1,
     title: "Butter paneer",
@@ -33,7 +33,7 @@ const App = () => {
   const [search, setSearch] = useState("");
 
   // filtering list
-  const filteredRecipe = recipe_card.filter((item) =>
+  const filteredRecipe = recipeCards.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase()),
   );
 
@@ -47,11 +47,15 @@ const App = () => {
   ));
 
   return (
-    <>
+    <div className="bg-amber-400/30 m-0">
       {/* navbar of the page-- */}
-      <nav className="navbar">
-        <ul className="nav-links">
-          <li className="about">
+      <nav
+        className="navbar border-3 border-blue-500 bg-blue-100 min-h-12.5 sticky top-1.25 flex
+      justify-end items-center"
+      >
+        <ul className="nav-links flex gap-7.5 list-none text-blue-800  visited:text-purple-600">
+          {/* you have to mention the color of text for link and when visited in tailwind */}
+          <li className="/about">
             <a href="#about">ABOUT</a>
           </li>
           <li className="links">
@@ -65,19 +69,22 @@ const App = () => {
           </li>
         </ul>
       </nav>
-
-      <label htmlFor="recipeSearch"> Search recipe: </label>
-      {/* creating search filter */}
-      <input
-        className="searchInput"
-        type="text"
-        placeholder=" Search recipe"
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <div className=" sticky top-10">
+        <label htmlFor="recipeSearch"> Search recipe: </label>
+        {/* creating search filter */}
+        <input
+          className="searchInput min-h-7.5 min-w-87.5 mt-2.5 border-3 border-double border-blue-500 rounded-[5px] bg-amber-50"
+          type="text"
+          placeholder=" Search recipe"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
 
       {/* displaying the list */}
-      <div> {displayRecipe}</div>
-    </>
+      <div className="grid auto-rows-auto grid-cols-[repeat(auto-fit,minmax(150px,350px))] gap-[1em] p-[1em] ">
+        {displayRecipe}
+      </div>
+    </div>
   );
 };
 
