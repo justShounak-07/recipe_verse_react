@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 
 import Recipe from "./recipe-src/recipe";
 import "./recipe-src/recipe.css";
+import Favourite from "./recipe-src/Favourite";
 
 // declaring recipes as a list--
 const recipeCards = [
@@ -27,65 +28,92 @@ const recipeCards = [
     title: "Paneer Do pyaza",
     description: " Description of Recipe - 6",
   },
+  {
+    id: 7,
+    title: "Mushroom Masala",
+    description: " Description of Recipe - 7",
+  },
 ];
+
+// Creating userContext--
+const FavContext = createContext();
 
 const App = () => {
   const [search, setSearch] = useState("");
+  const [favorites, setFavorites] = useState([]);
+
+  // TOGGLE FAVOURITE--
+  const toggleFavourite = (id) => {
+    if (favorites.includes(id)) {
+      const updated = favorites.filter((favId) => favId !== id);
+      setFavorites(updated);
+    } else {
+      const updated = [...favorites, id];
+      setFavorites(updated);
+    }
+  };
 
   // filtering list
   const filteredRecipe = recipeCards.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase()),
   );
 
-  // renderig the list to display on the list--
+  // rendering the list to display on the list--
   const displayRecipe = filteredRecipe.map((recipe) => (
     <Recipe
       key={recipe.id}
+      id={recipe.id}
       title={recipe.title}
       description={recipe.description}
     />
   ));
 
   return (
-    <div className="bg-amber-400/30 m-0">
-      {/* navbar of the page-- */}
-      <nav
-        className="navbar border-3 border-blue-500 bg-blue-100 min-h-12.5 sticky top-1.25 flex
+    <FavContext.Provider value={{ favorites, toggleFavourite }}>
+      <div className="bg-amber-400/30 m-0">
+        {/* navbar of the page-- */}
+        <nav
+          className="navbar border-3 border-blue-500 bg-blue-100 min-h-12.5 sticky top-1.25 flex
       justify-end items-center"
-      >
-        <ul className="nav-links flex gap-7.5 list-none text-blue-800  visited:text-purple-600">
-          {/* you have to mention the color of text for link and when visited in tailwind */}
-          <li className="/about">
-            <a href="#about">ABOUT</a>
-          </li>
-          <li className="links">
-            <a href="#links">LINKS</a>
-          </li>
-          <li className="menu">
-            <a href="#menu">MENU</a>
-          </li>
-          <li className="account">
-            <a href="#account">ACCOUNT</a>
-          </li>
-        </ul>
-      </nav>
-      <div className=" sticky top-10">
-        <label htmlFor="recipeSearch"> Search recipe: </label>
-        {/* creating search filter */}
-        <input
-          className="searchInput min-h-7.5 min-w-87.5 mt-2.5 border-3 border-double border-blue-500 rounded-[5px] bg-amber-50"
-          type="text"
-          placeholder=" Search recipe"
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
+        >
+          <ul className="nav-links flex gap-7.5 list-none text-blue-800  visited:text-purple-600">
+            {/* you have to mention the color of text for link and when visited in tailwind */}
 
-      {/* displaying the list */}
-      <div className="grid auto-rows-auto grid-cols-[repeat(auto-fit,minmax(150px,350px))] gap-[1em] p-[1em] ">
-        {displayRecipe}
+            <li className="/about">
+              <a href="#about">ABOUT</a>
+            </li>
+            <li className="links">
+              <a href="#links">LINKS</a>
+            </li>
+            <li className="menu">
+              <a href="#menu">MENU</a>
+            </li>
+            <li className="account">
+              <a href="#account">ACCOUNT</a>
+            </li>
+          </ul>
+        </nav>
+        <div className=" sticky top-10">
+          <label htmlFor="recipeSearch"> Search recipe: </label>
+          {/* creating search filter */}
+          <input
+            className="searchInput min-h-7.5 min-w-87.5 mt-2.5 border-3 border-double border-blue-500 rounded-[5px] bg-amber-50"
+            type="text"
+            placeholder=" Search recipe"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Favourite />
+          {/* counting the favourite count */}
+        </div>
+
+        {/* displaying the list */}
+        <div className="grid auto-rows-auto grid-cols-[repeat(auto-fit,minmax(150px,350px))] gap-[1em] p-[1em] ">
+          {displayRecipe}
+        </div>
       </div>
-    </div>
+    </FavContext.Provider>
   );
 };
 
 export default App;
+export { FavContext }; //exporting to import to any child
