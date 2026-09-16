@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 
 import Recipe from "./recipe-src/recipe";
 import "./recipe-src/recipe.css";
-import Favourite from "./recipe-src/Favourite";
+import Favourites from "./recipe-src/Favourites";
 
 // declaring recipes as a list--
 const recipeCards = [
@@ -80,16 +80,16 @@ const App = () => {
             {/* you have to mention the color of text for link and when visited in tailwind */}
 
             <li className="/about">
-              <a href="#about">ABOUT</a>
+              <a href="">ABOUT</a>
             </li>
             <li className="links">
-              <a href="#links">LINKS</a>
+              <a href="">LINKS</a>
             </li>
             <li className="menu">
-              <a href="#menu">MENU</a>
+              <a href="">MENU</a>
             </li>
             <li className="account">
-              <a href="#account">ACCOUNT</a>
+              <a href="">ACCOUNT</a>
             </li>
           </ul>
         </nav>
@@ -102,7 +102,7 @@ const App = () => {
             placeholder=" Search recipe"
             onChange={(e) => setSearch(e.target.value)}
           />
-          <Favourite />
+          <Favourites />
           {/* counting the favourite count */}
         </div>
 

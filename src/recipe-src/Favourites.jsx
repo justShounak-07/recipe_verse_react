@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FavContext } from "../App";
 
-const favorites = () => {
+const Favourites = () => {
   const { favorites } = useContext(FavContext);
   return (
     <>
@@ -10,4 +10,4 @@ const favorites = () => {
   );
 };
 
-export default favorites;
+export default Favourites;
