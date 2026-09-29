@@ -1,73 +1,37 @@
 import React, { createContext, useState } from "react";
 
 import Recipe from "./recipe-src/recipe";
-import "./recipe-src/recipe.css";
 import Favourites from "./recipe-src/Favourites";
-
-// declaring recipes as a list--
-const recipeCards = [
-  {
-    id: 1,
-    title: "Butter paneer",
-    description: " Description of Recipe - 1",
-  },
-  { id: 2, title: "Malai kofta ", description: " Description of Recipe - 2" },
-  {
-    id: 3,
-    title: "Butter Chicken",
-    description: " Description of Recipe - 3",
-  },
-  { id: 4, title: "Malai Chaap", description: " Description of Recipe - 4" },
-  {
-    id: 5,
-    title: "Chilli Chicken",
-    description: " Description of Recipe - 5",
-  },
-  {
-    id: 6,
-    title: "Paneer Do pyaza",
-    description: " Description of Recipe - 6",
-  },
-  {
-    id: 7,
-    title: "Mushroom Masala",
-    description: " Description of Recipe - 7",
-  },
-];
+import useFetch from "./components/useFetch";
 
 // Creating userContext--
 const FavContext = createContext();
 
 const App = () => {
-  const [search, setSearch] = useState("");
-  const [favorites, setFavorites] = useState([]);
+  const [recipe, setRecipe] = useState("");
+  const [searchRecipe, setsearchRecipe] = useState("");
 
-  // TOGGLE FAVOURITE--
-  const toggleFavourite = (id) => {
-    if (favorites.includes(id)) {
-      const updated = favorites.filter((favId) => favId !== id);
-      setFavorites(updated);
-    } else {
-      const updated = [...favorites, id];
-      setFavorites(updated);
-    }
-  };
-
-  // filtering list
-  const filteredRecipe = recipeCards.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase()),
+  //   API CALL
+  const { data, error, loading } = useFetch(
+    `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchRecipe}`,
+    null,
   );
 
-  // rendering the list to display on the list--
-  const displayRecipe = filteredRecipe.map((recipe) => (
-    <Recipe
-      key={recipe.id}
-      id={recipe.id}
-      title={recipe.title}
-      description={recipe.description}
-    />
-  ));
+  const recipes = data?.meals ?? [];
 
+  const [favorites, setFavorites] = useState([]);
+  // TOGGLE FAVOURITE--
+  const toggleFavourite = (id) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id],
+    );
+  };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setsearchRecipe(recipe);
+    setRecipe("");
+  }
   return (
     <FavContext.Provider value={{ favorites, toggleFavourite }}>
       <div className="bg-amber-400/30 m-0">
@@ -94,21 +58,44 @@ const App = () => {
           </ul>
         </nav>
         <div className=" sticky top-10">
-          <label htmlFor="recipeSearch"> Search recipe: </label>
           {/* creating search filter */}
-          <input
+
+          <form
+            onSubmit={handleSubmit}
             className="searchInput min-h-7.5 min-w-87.5 mt-2.5 border-3 border-double border-blue-500 rounded-[5px] bg-amber-50"
-            type="text"
-            placeholder=" Search recipe"
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          >
+            <h2>
+              <label> Enter Recipe name: </label> <br />
+            </h2>
+            <input
+              type="text"
+              id="searchRecipe"
+              placeholder=" Recipe name ( ex- Chicken) "
+              onChange={(e) => setRecipe(e.target.value)}
+              value={recipe}
+            />
+            <button type="submit"> Search </button>
+          </form>
+
           <Favourites />
           {/* counting the favourite count */}
         </div>
-
+        {/* loading state & error state */}
+        {loading && <p> RECIPE COOKING...</p>} {error && <p>{error}</p>}
         {/* displaying the list */}
         <div className="grid auto-rows-auto grid-cols-[repeat(auto-fit,minmax(150px,350px))] gap-[1em] p-[1em] ">
-          {displayRecipe}
+          {!loading &&
+            recipes.map((meal) => (
+              <Recipe
+                key={meal.idMeal}
+                id={meal.idMeal}
+                title={meal.strMeal}
+                Image={meal.strMealThumb}
+                description={`Category: ${meal.strCategory} \n
+                Place:${meal.strArea},${meal.strCountry}.`}
+                recipe={meal.strInstructions}
+              />
+            ))}
         </div>
       </div>
     </FavContext.Provider>
