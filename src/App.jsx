@@ -34,13 +34,16 @@ const App = () => {
   }
   return (
     <FavContext.Provider value={{ favorites, toggleFavourite }}>
-      <div className="bg-amber-400/30 m-0">
+      <div
+        className="bg-amber-50
+       m-0"
+      >
         {/* navbar of the page-- */}
         <nav
-          className="navbar border-3 border-blue-500 bg-blue-100 min-h-12.5 sticky top-1.25 flex
-      justify-end items-center"
+          className="navbar border-b border-gray-200 bg-white min-h-12.5 sticky top-1.25 flex flex-wrap
+      justify-end px-2 items-center w-full  z-20"
         >
-          <ul className="nav-links flex gap-7.5 list-none text-blue-800  visited:text-purple-600">
+          <ul className="nav-links flex gap-3 sm:gap-6 -sm:text-base list-none text-blue-800 ">
             {/* you have to mention the color of text for link and when visited in tailwind */}
 
             <li className="/about">
@@ -57,33 +60,41 @@ const App = () => {
             </li>
           </ul>
         </nav>
-        <div className=" sticky top-10">
+        <div className=" sticky top-10 z-10">
           {/* creating search filter */}
-
           <form
             onSubmit={handleSubmit}
-            className="searchInput min-h-7.5 min-w-87.5 mt-2.5 border-3 border-double border-blue-500 rounded-[5px] bg-amber-50"
+            className="flex flex-col sm:flex-row items-center gap-3 min-h-12.5  px-3  w-full sm:w-auto border-double mx-6 mt-5 rounded-xl border bg-white
+            border-gray-200  p-4 shadow-mde"
           >
-            <h2>
-              <label> Enter Recipe name: </label> <br />
-            </h2>
+            <label className="whitespace-nowrap"> Enter Recipe name: </label>
+
             <input
               type="text"
               id="searchRecipe"
-              placeholder=" Recipe name ( ex- Chicken) "
+              placeholder="(ex- Chicken, Lasagna) "
               onChange={(e) => setRecipe(e.target.value)}
               value={recipe}
+              className="min-h-5 w-full sm:w-50 border-2 border-gray-300 px-2"
             />
-            <button type="submit"> Search </button>
+            <button
+              type="submit"
+              className="px-5 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 font-medium
+            "
+            >
+              Search
+            </button>
+            {/* counting the favourite count */}
+            <div className="flex items-center gap-1.5 rounded-full border-2 border-amber-400 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-800">
+              <Favourites />
+            </div>
           </form>
-
-          <Favourites />
-          {/* counting the favourite count */}
         </div>
         {/* loading state & error state */}
         {loading && <p> RECIPE COOKING...</p>} {error && <p>{error}</p>}
         {/* displaying the list */}
-        <div className="grid auto-rows-auto grid-cols-[repeat(auto-fit,minmax(150px,350px))] gap-[1em] p-[1em] ">
+        <div className="grid auto-rows-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1em] p-[1em] ">
+          {/* here for mobile first Approach sm: tablet; lg:desktop; */}
           {!loading &&
             recipes.map((meal) => (
               <Recipe
