@@ -2,7 +2,7 @@
 
 A responsive recipe discovery application built with **React**, **Tailwind CSS**, and **TheMealDB API**. Search for meals, explore recipe information, view cooking instructions, and manage favorite recipes through React's Context API.
 
-🔗 **Live Demo:** [View RecipeVerse](https://your-deployment-link.vercel.app) _(Replace with your actual deployment URL)_
+🔗 **Live Demo:** [View RecipeVerse](https://your-deployment-link.vercel.app)
 
 ---
 
@@ -87,5 +87,3 @@ This project demonstrates practical experience with:
 Check out my Profile
 
 - GitHub: [@justShounak-07](https://github.com/justShounak-07)
-
-_Built as a hands-on frontend development project to practice React fundamentals, API integration, and shared state management._
